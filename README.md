@@ -2,8 +2,8 @@
 First, run the development server:
 
 ```bash
-npm run dev
-# or
+git clone git@github.com:smochan/anime.git
+yarn add
 yarn dev
 ```
 
