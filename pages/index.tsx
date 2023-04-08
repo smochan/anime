@@ -15,9 +15,10 @@ const Home: NextPage = () => {
       const getAnime = async () => {
         setLoading(true);
         const response = await axios.get(
-          "https://ghibliapi.herokuapp.com/films"
+          `${process.env.URL}/films`
         );
-        setAnime(response.data);
+        console.log(response.data.data.films);
+        setAnime(response.data.data.films);
         setLoading(false);
       };
       getAnime();

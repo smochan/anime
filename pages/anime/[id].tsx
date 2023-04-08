@@ -65,12 +65,12 @@ const Details: NextPage<Props> = ({ data }) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query;
-  const res = await axios.get<FilmResponse>(
-    `https://ghibliapi.herokuapp.com/films/${id}`
+  const res = await axios.get(
+    `${process.env.URL}/films/${id}`
   );
   return {
     props: {
-      data: res.data,
+      data: res.data.data.films,
     },
   };
 };
