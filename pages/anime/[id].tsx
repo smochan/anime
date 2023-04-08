@@ -66,7 +66,7 @@ const Details: NextPage<Props> = ({ data }) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query;
   const res = await axios.get(
-    `${process.env.URL}/films/${id}`
+    `${process.env.NEXT_PUBLIC_URL}/films/${id}`
   );
   return {
     props: {
