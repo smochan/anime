@@ -14,10 +14,10 @@ const Home: NextPage = () => {
     try {
       const getAnime = async () => {
         setLoading(true);
+        const URL = process.env.NEXT_PUBLIC_URL + "/films";
         const response = await axios.get(
-          `${process.env.URL}/films`
+          URL
         );
-        console.log(response.data.data.films);
         setAnime(response.data.data.films);
         setLoading(false);
       };
