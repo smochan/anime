@@ -1,31 +1,17 @@
-import type { NextPage } from "next";
-import { useEffect, useState } from "react";
+import type { NextPage, GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import axios from "axios";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
+import { FilmResponse } from "../interfaces";
 
-const Home: NextPage = () => {
-  const [animes, setAnime] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    try {
-      const getAnime = async () => {
-        setLoading(true);
-        const URL = process.env.NEXT_PUBLIC_URL + "/films";
-        const response = await axios.get(
-          URL
-        );
-        setAnime(response.data.data.films);
-        setLoading(false);
-      };
-      getAnime();
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
+interface Props {
+  data: [FilmResponse];
+}
+
+const Home: NextPage<Props> = ({ data }) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -35,10 +21,8 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Animes</h1>
-        {loading && <h3>Loading...</h3>}
-        {animes?.length > 0 && (
           <div className={styles.grid}>
-            {animes.map((anime) => (
+            {data.map((anime) => (
               <Link href={`/anime/${anime.id}`} key={anime?.id}>
                 <a className={styles.card}>
                   <Image
@@ -52,12 +36,22 @@ const Home: NextPage = () => {
               </Link>
             ))}
           </div>
-        )}
       </main>
 
       <footer className={styles.footer}></footer>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const res = await axios.get(
+    `${process.env.NEXT_PUBLIC_URL}/films/`
+  );
+  return {
+    props: {
+      data: res.data.data.films,
+    },
+  };
 };
 
 export default Home;
